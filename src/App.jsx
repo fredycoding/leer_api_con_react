@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "./App.css";
 
+
 function App({ valorinicial }) {
 
   const [pagina, setPagina] = useState(1)
@@ -18,12 +19,14 @@ function App({ valorinicial }) {
   const obtenerPost = async () => {
     try {
       let response = await axios.get(baseURL)
-      setPost(response.data.results[personaje])
+      let data = await response.data.results
+      setPost(data[personaje])  
+
     } catch (err) {
       // Errores
-      console.log(err.response.data)
-      console.log(err.response.status)
-      console.log(err.response.headers)
+      console.log("Data error: ", err.response.data)
+      console.log("Status error: ", err.response.status)
+      console.log("Headers error: " , err.response.headers)
     }
   };
 
@@ -35,19 +38,24 @@ function App({ valorinicial }) {
       setPersonaje(valorinicial)
     }
   }
-
   return (
-    <div>
-      <h1>
-        {post.name} {personaje}
-      </h1>
-      <img src={post.image} alt={post.name} />
-      <h3>{post.status}</h3>
-      <p>Personaje # {personaje + 1}</p>
-      <p>Página # {pagina}</p>
-      <button onClick={cambiarPagina}>Click aquí {personaje}</button>
-    </div>
+    <>
+      <div>
+        <h1>
+          {post.name} {personaje}
+        </h1>
+
+        <img src={post.image} alt={post.name} />
+        <h3>{post.status}</h3>
+        <p>Personaje # {personaje + 1}</p>
+        <p>Página # {pagina}</p>
+        <button onClick={cambiarPagina}>Click aquí {personaje}</button>
+      </div>
+    </>
   );
+
+
+
 }
 
 export default App;
