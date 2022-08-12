@@ -4,6 +4,12 @@
   padding: 2rem;
   text-align: center;
 }
+img{
+  border-style: solid;
+  border-radius: 180px;
+  border-color:rgb(113, 182, 128);
+  border-width: 15px;
+}
 
 .logo {
   height: 6em;

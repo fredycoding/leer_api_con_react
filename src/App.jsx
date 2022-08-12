@@ -2,38 +2,37 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "./App.css";
 
-function App() {
-  let personajeinicial = 0
-  const [pagina, setPagina] = useState(1);
-  const [post, setPost] = useState(1);
-  const [personaje, setPersonaje] = useState(personajeinicial);
+function App({ valorinicial }) {
 
-  let baseURL = `https://rickandmortyapi.com/api/character/?page=${pagina}`;
+  const [pagina, setPagina] = useState(1)
+  const [post, setPost] = useState(1)
+  const [personaje, setPersonaje] = useState(valorinicial)
+
+  let baseURL = `https://rickandmortyapi.com/api/character/?page=${pagina}`
 
   useEffect(() => {
-    obtenerPost();
-
-  }, [personaje]);
+    obtenerPost()
+  }, [personaje])
 
 
   const obtenerPost = async () => {
     try {
-      let response = await axios.get(baseURL);
-      setPost(response.data.results[personaje]);
+      let response = await axios.get(baseURL)
+      setPost(response.data.results[personaje])
     } catch (err) {
       // Errores
-      console.log(err.response.data);
-      I;
-      console.log(err.response.status);
-      console.log(err.response.headers);
+      console.log(err.response.data)
+      console.log(err.response.status)
+      console.log(err.response.headers)
     }
   };
 
   function cambiarPagina() {
-     setPersonaje(personaje + 1);
-    if (personaje >= 10) {         
-      setPagina(pagina + 1);
-      setPersonaje(personaje = 0);     
+    setPersonaje(personaje + 1)
+    //Como los personajes van hasta del 0 al 19, cuando sea mayor cambia la página.
+    if (personaje >= 19) {
+      setPagina(pagina + 1)
+      setPersonaje(valorinicial)
     }
   }
 
