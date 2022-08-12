@@ -1,58 +1,54 @@
-import axios from 'axios'
-import { useState, useEffect } from 'react'
-import './App.css'
-
+import axios from "axios";
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
-  const [post, setPost] = useState(1)
-  const [personaje, setPersonaje] = useState(0)
-  const [pagina, setPagina] = useState(1)
-  
-  
-  useEffect(() => {    
-    obtenerPost()    
-  }, [personaje])
+  let personajeinicial = 0
+  const [pagina, setPagina] = useState(1);
+  const [post, setPost] = useState(1);
+  const [personaje, setPersonaje] = useState(personajeinicial);
+
+  let baseURL = `https://rickandmortyapi.com/api/character/?page=${pagina}`;
+
+  useEffect(() => {
+    obtenerPost();
+
+  }, [personaje]);
 
 
-  const obtenerPost = async()=>{
-    const baseURL = `https://rickandmortyapi.com/api/character/?page=${pagina}`  
-
+  const obtenerPost = async () => {
     try {
-      const response = await axios.get(baseURL);
+      let response = await axios.get(baseURL);
       setPost(response.data.results[personaje]);
-      } catch (err) {
+    } catch (err) {
       // Errores
-      console.log(err.response.data); I
+      console.log(err.response.data);
+      I;
       console.log(err.response.status);
       console.log(err.response.headers);
-      }
+    }
+  };
 
+  function cambiarPagina() {
+     setPersonaje(personaje + 1);
+    if (personaje >= 10) {         
+      setPagina(pagina + 1);
+      setPersonaje(personaje = 0);     
+    }
   }
-
-
-  if (!post) return null
 
   return (
     <div>
-      <h1>{post.name} {personaje}</h1>
+      <h1>
+        {post.name} {personaje}
+      </h1>
       <img src={post.image} alt={post.name} />
       <h3>{post.status}</h3>
       <p>Personaje # {personaje + 1}</p>
-      <button onClick={()=>{
-      setPersonaje(personaje + 1) 
-      console.log("personaje: ", personaje)
-      if(personaje == 19){
-        alert("Llego al final:" + personaje + " pagina: " + pagina)
-        setPagina(pagina + 1)
-        setPersonaje(personaje = 1) 
-        
-      }
-       
-    
-      }}>Click aquí {personaje}</button>
+      <p>Página # {pagina}</p>
+      <button onClick={cambiarPagina}>Click aquí {personaje}</button>
     </div>
   );
-  
 }
 
-export default App
+export default App;
